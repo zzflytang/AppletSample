@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="toys" name="AppletPlayground build">
+  <!-- Applet building dependencies -->
+  <property name="JC222" value="ext/java_card_kit-2_2_2"/>
+  <property name="JC303" value="ext/java_card_kit-3_0_3"/>
+  <property name="OP20" value="ext/visa_openplatform-2_0"/>
+  <property name="GP211" value="ext/globalplatform-2_1_1"/>
+  <path id="convert_jars">
+    <pathelement path="./lib/tools.jar" />
+    <pathelement path="./lib/offcardverifier.jar" />
+    <pathelement path="./lib/Cap2Prg.jar" />
+  </path>
+  <property name="app.name" value="PKIApplet" />
+  <!-- ant-javacard task from javacard.pro -->
+  <taskdef name="javacard" classname="pro.javacard.ant.JavaCard" classpath="ext/ant-javacard.jar"/>
+  <!-- All included applets -->
+  <target name="toys">
+    <javacard jckit="${JC222}">
+      <!-- PKIApplet -->
+      <cap output="${app.name}.cap" sources="src/net/sourceforge/javacardsign" aid="1122334455">
+        <applet class="net.sourceforge.javacardsign.applet.PKIApplet" aid="112233445501"/>
+        <import exps="${GP211}" jar="${GP211}/gp211.jar"/>
+      </cap>
+    </javacard>
+  	
+    <java classname="com.tools.cap.Cap2Prg">
+        <classpath refid="convert_jars" />
+        <arg line="${app.name}.cap" />
+        <arg line="${app.name}.prg" />
+    </java> 
+    
+    <delete file="app.prg" />
+    <concat destfile="tmp.prg">
+        <filelist files="_header.prg, ${app.name}.prg"/>
+    </concat>
+  	<!-- 
+  	<echo file="tmp.prg" append="yes"
+        message="80E60C001A0511223344550611223344550106112233445501010002C90000" />
+        -->
+    <concat destfile="app.prg">
+        <filelist files="tmp.prg, _end.prg"/>
+    </concat>
+    <delete file="tmp.prg" />
+  	<delete file="${app.name}.prg" />
+  </target>
+</project>

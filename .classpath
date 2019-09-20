@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="com.watchdata.plugin.eclipse.containers.cardconfig/com.watchdata.eclipse.cardconfigs.classic;com.watchdata.eclipse.plugin.api.jc221;com.watchdata.eclipse.plugin.api.gp221;"/>
+	<classpathentry kind="lib" path="lib/api_classic.jar"/>
+	<classpathentry kind="lib" path="lib/gp211.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
